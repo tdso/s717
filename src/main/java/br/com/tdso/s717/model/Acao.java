@@ -13,6 +13,10 @@ public class Acao extends Ativo{
 	private Integer quantidade;
 	private BigDecimal precoUnitario;
 	private BigDecimal precoMedio;
+	
+	public Acao() {
+		super("", "");
+	}
 		
 	public Acao(Long id, String nome, String cod_negociacao, Integer quantidade, BigDecimal precoUnitario) {
 		// colocar as validacoes no construtor

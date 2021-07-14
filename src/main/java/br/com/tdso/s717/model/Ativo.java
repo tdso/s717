@@ -14,6 +14,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Ativo {
@@ -21,8 +23,9 @@ public class Ativo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String cod_negociacao;
+	private String codigoNegociacao;
 	@OneToMany(mappedBy = "ativo")
+	@JsonIgnore
 	private List<Negociacao> negociacoes = new ArrayList<>();
 	@OneToOne (cascade=CascadeType.ALL, mappedBy = "ativo")
 	private Estoque estoque;
@@ -31,12 +34,12 @@ public class Ativo {
 		// colocar as validacoes no construtor
 		this.id = id;
 		this.nome = nome;
-		this.cod_negociacao = cod_negociacao;
+		this.codigoNegociacao = cod_negociacao;
 	}
 
 	public Ativo(String nome, String cod_negociacao) {
 		this.nome = nome;
-		this.cod_negociacao = cod_negociacao;
+		this.codigoNegociacao = cod_negociacao;
 	}
 	
 	public Long getId() {
@@ -47,8 +50,8 @@ public class Ativo {
 		return nome;
 	}
 
-	public String getCod_negociacao() {
-		return cod_negociacao;
+	public String getCodigoNegociacao() {
+		return codigoNegociacao;
 	}
 
 	public List<Negociacao> getNegociacoes() {
@@ -58,5 +61,13 @@ public class Ativo {
 	public Estoque getEstoque() {
 		return estoque;
 	}
+
+	@Override
+	public String toString() {
+		return "Ativo [id=" + id + ", nome=" + nome + ", codigoNegociacao=" + codigoNegociacao + ", negociacoes="
+				+ negociacoes + ", estoque=" + estoque + "]";
+	}
+	
+	
 	
 }
