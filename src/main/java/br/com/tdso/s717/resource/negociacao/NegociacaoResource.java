@@ -1,11 +1,7 @@
 package br.com.tdso.s717.resource.negociacao;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.tdso.s717.model.Acao;
-import br.com.tdso.s717.model.Ativo;
 import br.com.tdso.s717.model.Negociacao;
+import br.com.tdso.s717.model.validador.NegValidator;
+import br.com.tdso.s717.model.validador.NegociacaoService;
+import br.com.tdso.s717.model.validador.NegociacaoValidador;
 import br.com.tdso.s717.repository.acao.AcaoRepository;
 import br.com.tdso.s717.repository.ativo.AtivoRepository;
 import br.com.tdso.s717.repository.negociacao.NegociacaoRepository;
@@ -30,6 +27,8 @@ public class NegociacaoResource {
 	private AcaoRepository acaoRepo;
 	@Autowired
 	private AtivoRepository ativoRepo;
+	@Autowired
+	private NegociacaoService negociacaoService;
 
 	@GetMapping
 	public List<Negociacao> listaNegociacao (){
@@ -38,13 +37,7 @@ public class NegociacaoResource {
 	
 	@PostMapping
 	public Negociacao incluiNegociacao (
-			@RequestBody Map<String, String> json
-			//@RequestBody String codAtivo,
-			//@RequestBody String dataNeg,
-			//@RequestBody String valorNeg, 
-			//@RequestBody String quantidade) {
-			) {
-		DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			@RequestBody Map<String, String> json) throws Exception {
 		System.out.println();
 		System.out.println("##########");
 		System.out.println("codativo = " + json.get("codAtivo") + " data = " + json.get("dataNeg"));
@@ -55,7 +48,8 @@ public class NegociacaoResource {
 		String dataNeg = json.get("dataNeg");
 		String valorNeg = json.get("valorNeg");
 		String quantidade = json.get("quantidade");
-		
+		/*
+		DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate data = LocalDate.parse(dataNeg, formatadorData);
 		LocalDate.parse("2018-07-22", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		BigDecimal valor = BigDecimal.valueOf(Double.parseDouble(valorNeg));
@@ -63,7 +57,11 @@ public class NegociacaoResource {
 		Optional<Ativo> ativoOpcional = ativoRepo.findByCodigoNegociacao(codAtivo);
 		Optional<Acao> acaoOpcional = acaoRepo.findById(ativoOpcional.get().getId());
 		Negociacao negociacao = new Negociacao(acaoOpcional.get(), data, valor);
-		
+		*/
+
+		//NegValidator validador = new NegValidator(codAtivo, dataNeg, valorNeg, ativoRepo);
+		//Negociacao negociacao = validador.buildNegociacao();
+		Negociacao negociacao = negociacaoService.buildNegociacao(codAtivo, dataNeg, valorNeg, quantidade);
 		return repo.save(negociacao);
 		
 	}
