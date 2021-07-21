@@ -52,6 +52,11 @@ public class Negociacao {
 	public BigDecimal getValorNegociacao() {
 		return valorNegociacao;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Negociacao [id=" + id + ", ativo=" + ativo + ", dataNegociacao=" + dataNegociacao + ", valorNegociacao="
+				+ valorNegociacao + "]";
+	}
 
 }
