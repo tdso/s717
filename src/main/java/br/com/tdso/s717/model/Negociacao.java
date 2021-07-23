@@ -24,6 +24,8 @@ public class Negociacao {
 	private LocalDate dataNegociacao;
 	private BigDecimal valorNegociacao;
 	
+	public Negociacao() {}
+	
 	public Negociacao(Ativo ativo, LocalDate dataNegociacao, BigDecimal valorNegociacao) {
 		this.ativo = ativo;
 		this.dataNegociacao = dataNegociacao;

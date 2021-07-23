@@ -100,7 +100,7 @@ public class NegociacaoDTO {
 	}
 
 	public Negociacao toNegociacao() {
-		System.out.println("Ativo = " + ativo + " dataNeg = " + dataNeg + " valorNeg = " + valorNeg);
+		//System.out.println("Ativo = " + ativo + " dataNeg = " + dataNeg + " valorNeg = " + valorNeg);
 		return new Negociacao(ativo, dataNeg, valorNeg);
 	}
 

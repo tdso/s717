@@ -1,4 +1,4 @@
-package br.com.tdso.s717.model.validador;
+package br.com.tdso.s717.service.negociacao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -72,6 +72,5 @@ public class NegociacaoService {
 		}
 		return valor;
 	}
-	
 
 }
