@@ -51,4 +51,12 @@ public class AcaoService {
 		return new Acao (acaodto.getNome(), acaodto.getCod_negociacao());
 	}
 
+	public Ativo getAcao(String codigoAcao) {
+		Optional<Ativo> ativoOptional = this.ativoRepository.findByCodigoNegociacao(codigoAcao);
+		if (ativoOptional.isEmpty()) {
+			throw new ValidacaoException("Ação " + codigoAcao + " não cadastrada !!");
+		}
+		return ativoOptional.get();
+	}
+
 }
