@@ -1,8 +1,5 @@
 package br.com.tdso.s717.model.dto;
 
-import java.math.BigDecimal;
-
-import br.com.tdso.s717.model.Acao;
 
 public class AcaoDTO {
 	
