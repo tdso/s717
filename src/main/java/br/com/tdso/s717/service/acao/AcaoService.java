@@ -33,22 +33,32 @@ public class AcaoService {
 	}
 
 	public Acao buildAcao(AcaoDTO acaodto) {
-		
-		if (acaodto.getNome().isBlank() || acaodto.getNome().isEmpty()) {
-			throw new ValidacaoException("Nome do Ativo não informado !!");
+		validaNomeAcao(acaodto);
+		validaCodigoNegociacao(acaodto);
+		validaSeAcaoJaExiste(acaodto);
+		return new Acao (acaodto.getNome(), acaodto.getCod_negociacao());
+	}
+
+	private void validaSeAcaoJaExiste(AcaoDTO acaodto) {
+		Optional<Ativo> ativoOptional = this.ativoRepository.findByCodigoNegociacao(acaodto.getCod_negociacao());
+		if (ativoOptional.isPresent()) {
+			throw new ValidacaoException("Ação com código: " + acaodto.getCod_negociacao() + " já cadastrada !");
 		}
+	}
+
+	private void validaCodigoNegociacao(AcaoDTO acaodto) {
 		if (acaodto.getCod_negociacao().isBlank() || acaodto.getCod_negociacao().isEmpty()) {
 			throw new ValidacaoException("Código do Ativo não informado !!");
 		}
 		if (acaodto.getCod_negociacao().length() < TAMANHO_MINIMO_CODIGO_NEGOCIACAO) {
 			throw new ValidacaoException("Código de Ativo inválido: " +  acaodto.getCod_negociacao() + " !!");
 		}
-		Optional<Ativo> ativoOptional = this.ativoRepository.findByCodigoNegociacao(acaodto.getCod_negociacao());
-		if (ativoOptional.isPresent()) {
-			throw new ValidacaoException("Ação com código: " + acaodto.getCod_negociacao() + " já cadastrada !");
+	}
+
+	private void validaNomeAcao(AcaoDTO acaodto) {
+		if (acaodto.getNome().isBlank() || acaodto.getNome().isEmpty()) {
+			throw new ValidacaoException("Nome do Ativo não informado !!");
 		}
-		
-		return new Acao (acaodto.getNome(), acaodto.getCod_negociacao());
 	}
 
 	public Ativo getAcao(String codigoAcao) {

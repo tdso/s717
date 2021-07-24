@@ -29,11 +29,8 @@ public class AcaoResource {
 	
 	@GetMapping
 	public List<Acao> listaAcao(){
-		
 		return service.getAcoes();
 	}
-	
-	
 	
 	@PostMapping
 	public Acao incluiAcao(@RequestBody AcaoDTO acaodto){
