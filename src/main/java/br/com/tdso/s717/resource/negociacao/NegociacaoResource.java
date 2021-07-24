@@ -40,7 +40,7 @@ public class NegociacaoResource {
 		
 		NegociacaoDTO negociacaoDTO = new NegociacaoDTO(json.get("codAtivo"),
 				json.get("dataNeg"), json.get("valorNeg"), json.get("quantidade"),
-				ativoRepo);
+				json.get("tipoOperacao"), ativoRepo);
 		
 		Negociacao negociacao = negociacaoDTO.toNegociacao();
 		

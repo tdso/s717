@@ -13,6 +13,7 @@ import br.com.tdso.s717.model.Ativo;
 import br.com.tdso.s717.model.Negociacao;
 import br.com.tdso.s717.model.Exceptions.ModelExceptions;
 import br.com.tdso.s717.model.Exceptions.Negociais.ValidacaoException;
+import br.com.tdso.s717.model.enums.TipoOperacao;
 import br.com.tdso.s717.repository.ativo.AtivoRepository;
 
 @Service
@@ -20,15 +21,30 @@ public class NegociacaoService {
 	
 	@Autowired
 	private AtivoRepository ativoRepository;
-	
-	public Negociacao buildNegociacao(String codAtivo, String data, String valor, String qtde) throws Exception{
+
+	public Negociacao buildNegociacao(String codAtivo, String data,
+			String valor, String qtde, String tipoOp) throws Exception{
 		Ativo ativo = validaAtivo(codAtivo);
 		LocalDate dataNeg = validaDataNeg(data);
 		BigDecimal valorNeg = validaValorNeg(valor);
 		int quantidade = validaQuantidade(qtde);
-		return new Negociacao (ativo, dataNeg, valorNeg);
+		TipoOperacao tipoOperacao = validaTipoOperacao(tipoOp);
+		return new Negociacao (ativo, dataNeg, valorNeg, quantidade, tipoOperacao);
 	}
 	
+	private TipoOperacao validaTipoOperacao(String tipoOp) {
+		int tipo = Integer.parseInt(tipoOp);
+		if (tipo <= 0) {
+			throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");
+		}
+		for (TipoOperacao operacao : TipoOperacao.values()) {
+			if (operacao.getCodigoTipoOperacao() == tipo) {
+				return operacao;
+			}
+		}
+		throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");
+	}
+
 	private LocalDate validaDataNeg(String dataNeg) throws ValidacaoException {
 		LocalDate data = null;
 			DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");

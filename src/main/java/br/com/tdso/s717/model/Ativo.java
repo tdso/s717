@@ -1,5 +1,6 @@
 package br.com.tdso.s717.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,16 +31,18 @@ public class Ativo {
 	@OneToOne (cascade=CascadeType.ALL, mappedBy = "ativo")
 	private Estoque estoque;
 
-	public Ativo(Long id, String nome, String cod_negociacao) {
+	public Ativo(Long id, String nome, String cod_negociacao, Estoque estoque) {
 		// colocar as validacoes no construtor
 		this.id = id;
 		this.nome = nome;
 		this.codigoNegociacao = cod_negociacao;
+		this.estoque = estoque;
 	}
 
 	public Ativo(String nome, String cod_negociacao) {
 		this.nome = nome;
 		this.codigoNegociacao = cod_negociacao;
+		this.estoque = new Estoque(this, 0, BigDecimal.ZERO);
 	}
 	
 	public Long getId() {

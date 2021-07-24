@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Estoque {
 	@Id
@@ -18,9 +20,12 @@ public class Estoque {
 	@OneToOne
 	@JoinColumn(name="ativo_id") // nomeando a coluna de join
 	@MapsId  // o identificador da entidade sera o mapeado pelo OnoToOne
+	@JsonIgnore
 	private Ativo ativo;
 	private Integer quantidade;
 	private BigDecimal precoMedio;
+	
+	public Estoque() {}
 	
 	public Estoque(Ativo ativo, Integer quantidade, BigDecimal precoMedio) {
 		this.ativo = ativo;
@@ -43,6 +48,11 @@ public class Estoque {
 	public BigDecimal getPrecoMedio() {
 		return precoMedio;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Estoque [id=" + id + ", ativo=" + ativo + ", quantidade=" + quantidade + ", precoMedio=" + precoMedio
+				+ "]";
+	}	
 
 }

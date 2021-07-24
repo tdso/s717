@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.tdso.s717.model.Ativo;
 import br.com.tdso.s717.model.Negociacao;
 import br.com.tdso.s717.model.Exceptions.Negociais.ValidacaoException;
+import br.com.tdso.s717.model.enums.TipoOperacao;
 import br.com.tdso.s717.repository.ativo.AtivoRepository;
 
 public class NegociacaoDTO {
@@ -23,11 +24,12 @@ public class NegociacaoDTO {
 	private LocalDate dataNeg;
 	private BigDecimal valorNeg;
 	private int quantidade;
+	private TipoOperacao tipoOperacao;
 	//@Autowired
 	private AtivoRepository ativoRepository;
 
 	public NegociacaoDTO(String codAtivo, String data, String valor,
-			String qtde, AtivoRepository repo) {
+			String qtde, String tipoOp, AtivoRepository repo) {
 		this.codAtivo = codAtivo;
 		this.data = data;
 		this.valor = valor;
@@ -37,6 +39,7 @@ public class NegociacaoDTO {
 		this.dataNeg = validaDataNeg(data);
 		this.valorNeg = validaValorNeg(valor);
 		this.quantidade = validaQuantidade(qtde);
+		this.tipoOperacao = validaTipoOperacao(tipoOp);
 	}
 
 	private LocalDate validaDataNeg(String dataNeg) throws ValidacaoException {
@@ -47,6 +50,25 @@ public class NegociacaoDTO {
 			throw new ValidacaoException("Data de negociação não pode ser futura !!");
 		}
 		return data;
+	}
+
+	private TipoOperacao validaTipoOperacao(String tipoOp) {
+		int tipo = 0;
+		try {
+			tipo = Integer.parseInt(tipoOp);
+		} catch (NumberFormatException e) {
+			throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");			
+		}
+		
+		if (tipo <= 0) {
+			throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");
+		}
+		for (TipoOperacao operacao : TipoOperacao.values()) {
+			if (operacao.getCodigoTipoOperacao() == tipo) {
+				return operacao;
+			}
+		}
+		throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");
 	}
 
 	private Ativo validaAtivo(String codAtivo) {
@@ -63,7 +85,15 @@ public class NegociacaoDTO {
 	}
 
 	private int validaQuantidade(String quantidade) {
-		int qtde = Integer.parseInt(quantidade);
+		
+		int qtde = 0;
+		
+		try {
+			qtde = Integer.parseInt(quantidade);
+		} catch (NumberFormatException e) {
+			throw new ValidacaoException("Valor inválido informando para quantidade: " + quantidade + " !!");			
+		}
+		
 		if (qtde <= 0) {
 			throw new ValidacaoException("Quantidade deve ser maior que zero !!");
 		}
@@ -100,8 +130,7 @@ public class NegociacaoDTO {
 	}
 
 	public Negociacao toNegociacao() {
-		//System.out.println("Ativo = " + ativo + " dataNeg = " + dataNeg + " valorNeg = " + valorNeg);
-		return new Negociacao(ativo, dataNeg, valorNeg);
+		return new Negociacao(ativo, dataNeg, valorNeg, quantidade, tipoOperacao);
 	}
 
 }

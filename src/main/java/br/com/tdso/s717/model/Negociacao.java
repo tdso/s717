@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ManyToAny;
+
+import br.com.tdso.s717.model.enums.TipoOperacao;
 @Entity
 @Table
 public class Negociacao {
@@ -23,20 +25,28 @@ public class Negociacao {
 	private Ativo ativo;
 	private LocalDate dataNegociacao;
 	private BigDecimal valorNegociacao;
+	private int quantidadeNegociada;
+	private TipoOperacao tipoOperacao;
 	
 	public Negociacao() {}
 	
-	public Negociacao(Ativo ativo, LocalDate dataNegociacao, BigDecimal valorNegociacao) {
+	public Negociacao(Ativo ativo, LocalDate dataNegociacao,
+			BigDecimal valorNegociacao, int quantidade, TipoOperacao tpOp) {
 		this.ativo = ativo;
 		this.dataNegociacao = dataNegociacao;
 		this.valorNegociacao = valorNegociacao;
+		this.quantidadeNegociada = quantidade;
+		this.tipoOperacao = tpOp;
 	}
 
-	public Negociacao(Long id, Ativo ativo, LocalDate dataNegociacao, BigDecimal valorNegociacao) {
+	public Negociacao(Long id, Ativo ativo, LocalDate dataNegociacao,
+			BigDecimal valorNegociacao, int quantidade, TipoOperacao tpOp) {
 		this.id = id;
 		this.ativo = ativo;
 		this.dataNegociacao = dataNegociacao;
 		this.valorNegociacao = valorNegociacao;
+		this.quantidadeNegociada = quantidade;
+		this.tipoOperacao = tpOp;
 	}
 
 	public Long getId() {
@@ -53,6 +63,14 @@ public class Negociacao {
 
 	public BigDecimal getValorNegociacao() {
 		return valorNegociacao;
+	}
+	
+	public int getQuantidadeNegociada() {
+		return quantidadeNegociada;
+	}
+
+	public TipoOperacao getTipoOperacao() {
+		return tipoOperacao;
 	}
 
 	@Override
