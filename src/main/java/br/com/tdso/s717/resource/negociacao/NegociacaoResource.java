@@ -3,6 +3,8 @@ package br.com.tdso.s717.resource.negociacao;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,7 @@ public class NegociacaoResource {
 		return negociacaoService.listaNegociacoes();
 	}
 	
+	@Transactional
 	@PostMapping
 	public Negociacao incluiNegociacao (
 			@RequestBody Map<String, String> json) throws Exception {

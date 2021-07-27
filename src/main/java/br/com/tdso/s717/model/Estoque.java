@@ -49,6 +49,14 @@ public class Estoque {
 		return precoMedio;
 	}
 
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public void setPrecoMedio(BigDecimal precoMedio) {
+		this.precoMedio = precoMedio;
+	}
+
 	@Override
 	public String toString() {
 		return "Estoque [id=" + id + ", ativo=" + ativo + ", quantidade=" + quantidade + ", precoMedio=" + precoMedio

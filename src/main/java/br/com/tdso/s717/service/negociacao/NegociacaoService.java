@@ -8,11 +8,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.tdso.s717.model.Ativo;
+import br.com.tdso.s717.model.Estoque;
 import br.com.tdso.s717.model.Negociacao;
 import br.com.tdso.s717.model.Exceptions.Negociais.ValidacaoException;
 import br.com.tdso.s717.model.enums.TipoOperacao;
 import br.com.tdso.s717.repository.ativo.AtivoRepository;
+import br.com.tdso.s717.repository.estoque.EstoqueRepository;
 import br.com.tdso.s717.repository.negociacao.NegociacaoRepository;
+import br.com.tdso.s717.util.CalculosAcao;
+import br.com.tdso.s717.util.CalculosAtivo;
 
 @Service
 public class NegociacaoService {
@@ -22,11 +26,45 @@ public class NegociacaoService {
 	
 	@Autowired
 	private NegociacaoRepository repo;
+	@Autowired
+	private EstoqueRepository estoqueRepository;
 
 	public Negociacao incluiNegociacao (Negociacao negociacao) {
-		return repo.save(negociacao);
+		Negociacao neg = repo.save(negociacao);
+		
+		// pattern command ??
+		// usar controle de transacao - se nao me engano é no resource
+		Estoque estoque = recuperaEstoque(negociacao);
+		int qtde = 0;
+		if (negociacao.getTipoOperacao() == TipoOperacao.COMPRA) {
+			atualizaPrecoMedio(negociacao, estoque);
+			atualizaQuantidadeEstoque(estoque, negociacao.getQuantidadeNegociada());
+		} else {
+			qtde = (negociacao.getQuantidadeNegociada() * (-1));
+			atualizaQuantidadeEstoque(estoque, (negociacao.getQuantidadeNegociada() * -1));
+		}
+		return neg;
 	}
 	
+	private void atualizaQuantidadeEstoque(Estoque estoque, int qtde) {
+		estoque.setQuantidade(estoque.getQuantidade() + qtde);
+	}
+
+	private Estoque recuperaEstoque(Negociacao negociacao) {
+		Optional<Estoque> estoqueOptional = estoqueRepository.findById(negociacao.getAtivo().getId());
+		
+		// verificacao de erro aqui ?!?!
+		
+		return estoqueOptional.get();
+	}
+	private void atualizaPrecoMedio(Negociacao negociacao, Estoque estoque) {
+		CalculosAtivo calculos = new CalculosAcao();
+		BigDecimal precoMedio = calculos.calculaPrecoMedio(negociacao, estoque);
+		estoque.setPrecoMedio(precoMedio);
+		
+		// confirmar se gravou no final ja q é um objeto gerenciado //
+	}
+
 	public List<Negociacao> listaNegociacoes (){
 		return repo.findAll();
 	}
