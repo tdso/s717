@@ -15,13 +15,13 @@ public class CalculosAcao implements CalculosAtivo {
 		if (estoque.getQuantidade() == 0) {
 			return precoMedioNegociacao;
 		}		
-		//BigDecimal precoMedioEstoque = estoque.getPrecoMedio()
-		//							.multiply(BigDecimal.valueOf(estoque.getQuantidade()));
+		
 		BigDecimal qtdeTotal = BigDecimal.valueOf(negociacao.getQuantidadeNegociada())
 									.add(BigDecimal.valueOf(estoque.getQuantidade()));
+
 		BigDecimal volumeEstoque = estoque.getPrecoMedio()
 											.multiply(BigDecimal.valueOf(estoque.getQuantidade()));
-		//BigDecimal somaPrecosMedios = precoMedioNegociacao.add(estoque.getPrecoMedio());
+
 		BigDecimal somaVolumes = volumeEstoque.add(negociacao.getValorNegociacao());
 		
 		BigDecimal calculo = somaVolumes.divide(qtdeTotal, 2, RoundingMode.HALF_UP);

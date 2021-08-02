@@ -30,11 +30,19 @@ public class NegociacaoService {
 	private EstoqueRepository estoqueRepository;
 
 	public Negociacao incluiNegociacao (Negociacao negociacao) {
+		
+		Estoque estoque = recuperaEstoque(negociacao);
+		if (negociacao.getTipoOperacao() == TipoOperacao.VENDA) {
+			if (negociacao.getQuantidadeNegociada() > estoque.getQuantidade()) {
+				throw new ValidacaoException("Negociação não permitida ! Não ativos suficientes na carteira para executar a operação [" + estoque.getQuantidade() + "]");
+			}
+		}
+		
 		Negociacao neg = repo.save(negociacao);
 		
 		// pattern command ??
 		// usar controle de transacao - se nao me engano é no resource
-		Estoque estoque = recuperaEstoque(negociacao);
+		
 		int qtde = 0;
 		if (negociacao.getTipoOperacao() == TipoOperacao.COMPRA) {
 			atualizaPrecoMedio(negociacao, estoque);
