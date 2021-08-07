@@ -1,0 +1,20 @@
+{
+  "overview": [
+    {
+      "id": "TAEE11",
+      "nome": "TAESA",
+      "precoMedio": "21.50",
+      "tipo": "Ação",
+      "qtde": "700"
+    },
+    {
+      "id": "B3SA3",
+      "nome": "B3",
+      "precoMedio": "15.00",
+      "tipo": "Ação",
+      "qtde": "900"
+    }
+  ],
+  "rentab": [{ "id": "TAEE11", "2021": "9,854.23", "2020": "77,014.23" }],
+  "profile": { "name": "typicode" }
+}

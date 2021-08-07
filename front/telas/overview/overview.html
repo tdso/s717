@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="overview.css" rel="stylesheet" />
+  </head>
+
+  <body class="content">
+    <h1>Overview</h1>
+
+    <section>
+      <div data-form class="form">
+        <div>
+          <label>Código do Ativo</label>
+          <input type="text" data-cod-ativo />
+          <button data-bt-pesquisar>Pesquisar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="grupo-inf">
+      <div class="dados-basicos">
+        <div class="ativo">
+          <span class="rotulo">Ativo:</span>
+          <span data-ativo></span>
+        </div>
+        <div class="ativo">
+          <span class="rotulo">Tipo do Ativo:</span>
+          <span data-tipo></span>
+        </div>
+        <div class="ativo">
+          <span class="rotulo">Preço Médio:</span>
+          <span data-pm></span>
+        </div>
+        <div class="ativo">
+          <span class="rotulo">Quantidade:</span>
+          <span data-qtde></span>
+        </div>
+      </div>
+
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Rendimentos 2021</th>
+            <th>Rendimentos 2020</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>R$9.856,20</td>
+            <td>19.987,25</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <script
+      type="module"
+      src="../../controllers/OverviewController.js"
+    ></script>
+  </body>
+</html>
