@@ -3,25 +3,80 @@ package br.com.tdso.s717.service.negociacao;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
 import br.com.tdso.s717.model.Ativo;
+import br.com.tdso.s717.model.Estoque;
 import br.com.tdso.s717.model.Negociacao;
-import br.com.tdso.s717.model.Exceptions.ModelExceptions;
 import br.com.tdso.s717.model.Exceptions.Negociais.ValidacaoException;
 import br.com.tdso.s717.model.enums.TipoOperacao;
 import br.com.tdso.s717.repository.ativo.AtivoRepository;
+import br.com.tdso.s717.repository.estoque.EstoqueRepository;
+import br.com.tdso.s717.repository.negociacao.NegociacaoRepository;
+import br.com.tdso.s717.util.CalculosAcao;
+import br.com.tdso.s717.util.CalculosAtivo;
 
 @Service
 public class NegociacaoService {
 	
 	@Autowired
 	private AtivoRepository ativoRepository;
+	
+	@Autowired
+	private NegociacaoRepository repo;
+	@Autowired
+	private EstoqueRepository estoqueRepository;
 
+	public Negociacao incluiNegociacao (Negociacao negociacao) {
+		
+		Estoque estoque = recuperaEstoque(negociacao);
+		if (negociacao.getTipoOperacao() == TipoOperacao.VENDA) {
+			if (negociacao.getQuantidadeNegociada() > estoque.getQuantidade()) {
+				throw new ValidacaoException("Negociação não permitida ! Não ativos suficientes na carteira para executar a operação [" + estoque.getQuantidade() + "]");
+			}
+		}
+		
+		Negociacao neg = repo.save(negociacao);
+		
+		// pattern command ??
+		// usar controle de transacao - se nao me engano é no resource
+		
+		int qtde = 0;
+		if (negociacao.getTipoOperacao() == TipoOperacao.COMPRA) {
+			atualizaPrecoMedio(negociacao, estoque);
+			atualizaQuantidadeEstoque(estoque, negociacao.getQuantidadeNegociada());
+		} else {
+			qtde = (negociacao.getQuantidadeNegociada() * (-1));
+			atualizaQuantidadeEstoque(estoque, (negociacao.getQuantidadeNegociada() * -1));
+		}
+		return neg;
+	}
+	
+	private void atualizaQuantidadeEstoque(Estoque estoque, int qtde) {
+		estoque.setQuantidade(estoque.getQuantidade() + qtde);
+	}
+
+	private Estoque recuperaEstoque(Negociacao negociacao) {
+		Optional<Estoque> estoqueOptional = estoqueRepository.findById(negociacao.getAtivo().getId());
+		
+		// verificacao de erro aqui ?!?!
+		
+		return estoqueOptional.get();
+	}
+	private void atualizaPrecoMedio(Negociacao negociacao, Estoque estoque) {
+		CalculosAtivo calculos = new CalculosAcao();
+		BigDecimal precoMedio = calculos.calculaPrecoMedio(negociacao, estoque);
+		estoque.setPrecoMedio(precoMedio);
+		
+		// confirmar se gravou no final ja q é um objeto gerenciado //
+	}
+
+	public List<Negociacao> listaNegociacoes (){
+		return repo.findAll();
+	}
+	
 	public Negociacao buildNegociacao(String codAtivo, String data,
 			String valor, String qtde, String tipoOp) throws Exception{
 		Ativo ativo = validaAtivo(codAtivo);
@@ -33,7 +88,13 @@ public class NegociacaoService {
 	}
 	
 	private TipoOperacao validaTipoOperacao(String tipoOp) {
-		int tipo = Integer.parseInt(tipoOp);
+		int tipo = 0;
+		try {
+			tipo = Integer.parseInt(tipoOp);
+		} catch (NumberFormatException e) {
+			throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");			
+		}
+		
 		if (tipo <= 0) {
 			throw new ValidacaoException("Tipo de Operação informado inexistente [1 - compra ou 2 - venda ou 3 - aluguel] !!");
 		}
@@ -69,8 +130,15 @@ public class NegociacaoService {
 	}
 
 	private int validaQuantidade(String quantidade) {
-		int qtde = Integer.parseInt(quantidade);
-		if (qtde <= 0 ) {
+		int qtde = 0;
+		
+		try {
+			qtde = Integer.parseInt(quantidade);
+		} catch (NumberFormatException e) {
+			throw new ValidacaoException("Valor inválido informando para quantidade: " + quantidade + " !!");			
+		}
+		
+		if (qtde <= 0) {
 			throw new ValidacaoException("Quantidade deve ser maior que zero !!");
 		}
 		return qtde;
@@ -81,9 +149,9 @@ public class NegociacaoService {
 		try {
 			valor = BigDecimal.valueOf(Double.parseDouble(valorNeg));
 		} catch (NumberFormatException e) {
-			throw new ValidacaoException("Valor informado ("+ valorNeg +") da negociação inválido !!");
+			throw new ValidacaoException("Valor informado (" + valorNeg + ") da negociação inválido !!");
 		}
-		if (!(valor.compareTo(BigDecimal.ZERO) == 1))  {
+		if (!(valor.compareTo(BigDecimal.ZERO) == 1)) {
 			throw new ValidacaoException("Valor da negociação deve ser maior do que zero !!");
 		}
 		return valor;
