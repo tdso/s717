@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="negociacao.css" rel="stylesheet" />
+  </head>
+
+  <body class="content">
+    <h1>Negociacao</h1>
+
+    <section>
+      <div data-form class="form">
+        <div class="box-pesquisa">
+        <div class="box-pesquisa-linha1">
+          <label class="rotulo box-pesquisa-col-1">Código do Ativo:</label>
+          <input type="text" class="campo-texto" data-cod-ativo />
+          <input class="rotulo tipo-operacao-compra" type = "checkbox" data-tipo-compra nome = "compra" value = "1" />
+          <label> Compra </label>
+          <input type = "checkbox" class="rotulo tipo-operacao-venda" data-tipo-venda nome = "venda" value = "2" />
+          <label> Venda </label>
+        </div>
+        <div>
+          <label class="rotulo box-pesquisa-col-1">Intervalo entre:</label>
+          <input type="date" data-periodo-inicio />
+          <label class="rotulo box-pesquisa-col-2">até a data:</label>
+          <input type="date" data-periodo-fim />
+
+          <button data-bt-pesquisar class="bt-pesq">Pesquisar</button>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="grupo-inf">
+      <div class="dados-basicos">
+        <div class="ativo">
+          <span class="rotulo">Ativo:</span>
+          <span data-ativo></span>
+        </div>
+        <div class="ativo">
+          <span class="rotulo">Tipo do Ativo:</span>
+          <span data-tipo></span>
+        </div>
+        <div class="ativo">
+          <span class="rotulo">Preço Médio:</span>
+          <span data-pm></span>
+        </div>
+        <div class="ativo">
+          <span class="rotulo">Quantidade:</span>
+          <span data-qtde></span>
+        </div>
+      </div> -->
+
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Ativo</th>
+            <th>Data Negociacao</th>
+            <th>Tipo Operação</th>
+            <th>Quantidade</th>
+            <th>Valor Negociação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TAEE11</td>
+            <td>15/05/2021</td>
+            <td>Compra</td>
+            <td>900</td>
+            <td>R$ 27.000,00</td>
+          </tr>
+          <tr>
+            <td>B3SA3</td>
+            <td>18/05/2021</td>
+            <td>Compra</td>
+            <td>1000</td>
+            <td>R$ 15.000,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <script
+      type="module"
+      src="../../controllers/NegociacaoController.js"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #264653;
+  color: #fff;
+  width: 1200px;
+}
+.content {
+  margin-left: 20px;
+}
+.form {
+  margin-top: 30px;
+}
+.box-pesquisa {
+  display: flex;
+  flex-direction: column;
+}
+.box-pesquisa-col-1 {
+  display: inline-block;
+  width: 13%;
+}
+.box-pesquisa-col-2 {
+  display: inline-block;
+  width: 8%;
+  margin-left: 20px;
+}
+.campo-texto {
+  width: 153px;
+}
+.tipo-operacao-compra {
+  margin-left: 20px;
+}
+.tipo-operacao-venda {
+  margin-left: 14px;
+}
+
+.bt-pesq {
+  font-size: x-small;
+  margin-left: 20px;
+}
+/* .grupo-inf {
+  margin-top: 40px;
+}
+.dados-basicos {
+  display: flex;
+}
+.ativo {
+  flex-basis: 20%;
+} */
+.tabela {
+  margin-top: 15px;
+}
+.rotulo {
+  font-weight: bold;
+}
