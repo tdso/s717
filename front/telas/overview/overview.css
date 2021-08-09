@@ -28,3 +28,30 @@ body {
 .rotulo {
   font-weight: bold;
 }
+/* estilo para futuro componente menu */
+.barra-nav {
+  display: flex;
+  justify-content: space-between;
+}
+.titulo-tela {
+  font-size: 2em;
+}
+nav > ul {
+  list-style: none;
+}
+nav > ul > li {
+  display: inline;
+}
+a {
+  color: aqua;
+}
+a:hover {
+  color: yellow;
+  font-size: 22px;
+}
+a::after {
+  color: tomato;
+}
+
+.menu {
+}

@@ -5,50 +5,97 @@
   </head>
 
   <body class="content">
-    <h1>Negociacao</h1>
+    <nav class="barra-nav">
+      <span class="titulo-tela">Negociacao</span>
+      <ul class="menu">
+        <li><a href="../overview/overview.html">Overview</a></li>
+        <li><a href="../negociacao/negociacao.html">Negociação</a></li>
+      </ul>
+    </nav>
 
-    <section>
-      <div data-form class="form">
-        <div class="box-pesquisa">
-        <div class="box-pesquisa-linha1">
-          <label class="rotulo box-pesquisa-col-1">Código do Ativo:</label>
-          <input type="text" class="campo-texto" data-cod-ativo />
-          <input class="rotulo tipo-operacao-compra" type = "checkbox" data-tipo-compra nome = "compra" value = "1" />
-          <label> Compra </label>
-          <input type = "checkbox" class="rotulo tipo-operacao-venda" data-tipo-venda nome = "venda" value = "2" />
-          <label> Venda </label>
-        </div>
-        <div>
-          <label class="rotulo box-pesquisa-col-1">Intervalo entre:</label>
-          <input type="date" data-periodo-inicio />
-          <label class="rotulo box-pesquisa-col-2">até a data:</label>
-          <input type="date" data-periodo-fim />
+    <nav class="menu-interno">
+      <span class="menu-interno-opcoes opcao-pesq" data-menu-pesq
+        ><a href="#">Pesquisar</a></span
+      >
+      <span class="menu-interno-opcoes"
+        ><a href="#" data-menu-inc>Incluir </a></span
+      >
+    </nav>
 
-          <button data-bt-pesquisar class="bt-pesq">Pesquisar</button>
-        </div>
+    <!-- Incluir -->
+
+    <section class="incluir-neg" data-tela-incluir>
+      <div data-form class="form-incluir">
+        <div class="box-incluir">
+          <div class="box-pesquisa-linha1">
+            <label class="rotulo box-incluir-col-1">Código do Ativo:</label>
+            <input type="text" class="campo-texto" data-cod-ativo-inc />
+            <input
+              class="rotulo tipo-operacao-compra"
+              type="checkbox"
+              data-tipo-compra-inc
+              nome-tipo-inc="compra"
+              value="1"
+            />
+            <label> Compra </label>
+            <input
+              type="checkbox"
+              class="rotulo tipo-operacao-venda"
+              data-tipo-venda-inc
+              nome-tipo-inc="venda"
+              value="2"
+            />
+            <label> Venda </label>
+          </div>
+          <div>
+            <label class="rotulo box-incluir-col-1">Data Negociação:</label>
+            <input type="date" data-negociacao />
+            <label class="rotulo box-incluir-col-2">Valor da Negociação:</label>
+            <input type="number" valor-negociacao />
+
+            <button data-bt-incluir class="bt-pesq">Incluir</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- <section class="grupo-inf">
-      <div class="dados-basicos">
-        <div class="ativo">
-          <span class="rotulo">Ativo:</span>
-          <span data-ativo></span>
+    <!-- Fim Incluir -->
+
+    <!-- Inicio Pesquisa -->
+
+    <section data-tela-pesq>
+      <div data-form class="form">
+        <div class="box-pesquisa">
+          <div class="box-pesquisa-linha1">
+            <label class="rotulo box-pesquisa-col-1">Código do Ativo:</label>
+            <input type="text" class="campo-texto" data-cod-ativo />
+            <input
+              class="rotulo tipo-operacao-compra"
+              type="checkbox"
+              data-tipo-compra
+              nome="compra"
+              value="1"
+            />
+            <label> Compra </label>
+            <input
+              type="checkbox"
+              class="rotulo tipo-operacao-venda"
+              data-tipo-venda
+              nome="venda"
+              value="2"
+            />
+            <label> Venda </label>
+          </div>
+          <div>
+            <label class="rotulo box-pesquisa-col-1">Intervalo entre:</label>
+            <input type="date" data-periodo-inicio />
+            <label class="rotulo box-pesquisa-col-2">até a data:</label>
+            <input type="date" data-periodo-fim />
+
+            <button data-bt-pesquisar class="bt-pesq">Pesquisar</button>
+          </div>
         </div>
-        <div class="ativo">
-          <span class="rotulo">Tipo do Ativo:</span>
-          <span data-tipo></span>
-        </div>
-        <div class="ativo">
-          <span class="rotulo">Preço Médio:</span>
-          <span data-pm></span>
-        </div>
-        <div class="ativo">
-          <span class="rotulo">Quantidade:</span>
-          <span data-qtde></span>
-        </div>
-      </div> -->
+      </div>
 
       <table class="tabela">
         <thead>
@@ -78,6 +125,8 @@
         </tbody>
       </table>
     </section>
+    <!-- Fim Pesquisa -->
+
     <script
       type="module"
       src="../../controllers/NegociacaoController.js"

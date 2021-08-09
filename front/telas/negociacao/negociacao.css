@@ -8,6 +8,47 @@ body {
   color: #fff;
   width: 1200px;
 }
+.barra-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  align-items: center;
+}
+.titulo-tela {
+  font-size: 2em;
+}
+nav > ul {
+  list-style: none;
+}
+nav > ul > li {
+  display: inline;
+  margin-left: 15px;
+}
+a {
+  color: aqua;
+}
+a:hover {
+  color: yellow;
+  font-size: 22px;
+}
+a::after {
+  color: tomato;
+}
+
+.menu {
+  align-items: center;
+}
+
+.menu-interno {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+.menu-interno-opcoes {
+  flex-basis: 10%;
+}
+.opcao-pesq {
+}
 .content {
   margin-left: 20px;
 }
@@ -55,4 +96,24 @@ body {
 }
 .rotulo {
   font-weight: bold;
+}
+/* incluir */
+.form-incluir {
+  margin-top: 30px;
+}
+.box-incluir {
+  display: flex;
+  flex-direction: column;
+}
+.box-incluir-col-1 {
+  display: inline-block;
+  width: 13%;
+}
+.box-incluir-col-2 {
+  display: inline-block;
+  width: 16%;
+  margin-left: 20px;
+}
+.incluir-neg {
+  display: none;
 }
