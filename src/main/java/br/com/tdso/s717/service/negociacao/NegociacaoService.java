@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import br.com.tdso.s717.model.Ativo;
 import br.com.tdso.s717.model.Estoque;
 import br.com.tdso.s717.model.Negociacao;
@@ -34,7 +36,7 @@ public class NegociacaoService {
 		Estoque estoque = recuperaEstoque(negociacao);
 		if (negociacao.getTipoOperacao() == TipoOperacao.VENDA) {
 			if (negociacao.getQuantidadeNegociada() > estoque.getQuantidade()) {
-				throw new ValidacaoException("Negociação não permitida ! Não ativos suficientes na carteira para executar a operação [" + estoque.getQuantidade() + "]");
+				throw new ValidacaoException("Negociação não permitida ! Não há ativos suficientes na carteira para executar a operação [" + estoque.getQuantidade() + "]");
 			}
 		}
 		
