@@ -24,6 +24,7 @@ public class AcaoResource {
 	
 	@GetMapping("/{cod_neg}")
 	public Ativo buscaAcao(@PathVariable String cod_neg){
+		System.out.println("requisicao = " + cod_neg);
 		return service.getAcao(cod_neg);
 	}
 	
