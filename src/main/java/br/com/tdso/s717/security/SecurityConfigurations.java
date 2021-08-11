@@ -22,14 +22,22 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.cors()
 		.and()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/acao").permitAll()
-		.antMatchers(HttpMethod.GET, "/acao/*").permitAll()
-		.antMatchers(HttpMethod.GET, "/neg").permitAll()
-		.antMatchers(HttpMethod.GET, "/neg/*").permitAll()
-		//.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.antMatchers("/h2-console/**").permitAll()
+		
+		//.antMatchers(HttpMethod.GET, "/h2-console").permitAll()
+		//.antMatchers(HttpMethod.GET, "/h2-console/*").permitAll()
+//		.antMatchers(HttpMethod.GET, "/acao").permitAll()
+//		.antMatchers(HttpMethod.GET, "/acao/*").permitAll()
+		.antMatchers("/acao/**").permitAll()
+		.antMatchers(HttpMethod.DELETE, "/acao").permitAll()
+		.antMatchers(HttpMethod.DELETE, "/acao/*").permitAll()
+		.antMatchers("/neg/**").permitAll()
+//		.antMatchers(HttpMethod.GET, "/neg").permitAll()
+//		.antMatchers(HttpMethod.GET, "/neg/*").permitAll()
 		.anyRequest().authenticated()
 		.and()
-        .csrf().disable();
+        .csrf().disable()
+		.headers().frameOptions().sameOrigin();
 		//.and().formLogin();
 	}
 	
@@ -37,7 +45,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT","DELETE","OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

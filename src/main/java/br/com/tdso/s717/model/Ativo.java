@@ -44,6 +44,7 @@ public class Ativo {
 		this.codigoNegociacao = cod_negociacao;
 		this.estoque = new Estoque(this, 0, BigDecimal.ZERO);
 	}
+	public Ativo() {}
 	
 	public Long getId() {
 		return id;

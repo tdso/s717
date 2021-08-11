@@ -11,7 +11,8 @@ public class CalculosAcao implements CalculosAtivo {
 	@Override
 	public BigDecimal calculaPrecoMedio(Negociacao negociacao, Estoque estoque) {
 		BigDecimal precoMedioNegociacao = negociacao.getValorNegociacao()
-									.divide(BigDecimal.valueOf(negociacao.getQuantidadeNegociada()));
+									.divide(BigDecimal.valueOf(negociacao.getQuantidadeNegociada()),
+											2, RoundingMode.HALF_UP);
 		if (estoque.getQuantidade() == 0) {
 			return precoMedioNegociacao;
 		}		

@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import br.com.tdso.s717.model.Acao;
 import br.com.tdso.s717.model.Ativo;
+import br.com.tdso.s717.model.Negociacao;
 import br.com.tdso.s717.model.Exceptions.Negociais.ValidacaoException;
 import br.com.tdso.s717.model.dto.AcaoDTO;
 import br.com.tdso.s717.repository.acao.AcaoRepository;
 import br.com.tdso.s717.repository.ativo.AtivoRepository;
+import br.com.tdso.s717.repository.negociacao.NegociacaoRepository;
 
 @Service
 public class AcaoService {
@@ -20,6 +22,8 @@ public class AcaoService {
 	AcaoRepository repo;
 	@Autowired
 	AtivoRepository ativoRepository;
+	@Autowired
+	NegociacaoRepository negociacaoRepository;
 	
 	private final int TAMANHO_MINIMO_CODIGO_NEGOCIACAO = 5;
 	
@@ -67,6 +71,18 @@ public class AcaoService {
 			throw new ValidacaoException("Ação " + codigoAcao + " não cadastrada !!");
 		}
 		return ativoOptional.get();
+	}
+
+	public void deleteAcao(String cod_neg) {
+		
+		Long id = Long.parseLong(cod_neg);
+		Ativo ativo = ativoRepository.getOne(id);
+		List<Negociacao> negs = negociacaoRepository.findByAtivo(ativo);
+		if (negs.isEmpty()) {
+			repo.deleteById(id);
+		} else {
+			throw new ValidacaoException("Ativo não pode ser excluído !!");
+		}
 	}
 
 }
