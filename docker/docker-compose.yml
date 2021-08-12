@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb:10.6
+    container_name: mariadb
+    restart: always
+    volumes:
+      - ./dados:/var/lib/mysql
+    environment:
+      MARIADB_USER: user
+      MARIADB_ROOT_PASSWORD: senha
+      MARIADB_DATABASE: portfolio
+
+  adminer:
+    image: adminer
+    container_name: admin_db
+    restart: always
+    ports:
+      - 8088:8080
