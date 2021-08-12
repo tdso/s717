@@ -45,13 +45,16 @@ public class NegociacaoService {
 		// pattern command ??
 		// usar controle de transacao - se nao me engano é no resource
 		
-		int qtde = 0;
+		//int qtde = 0;
 		if (negociacao.getTipoOperacao() == TipoOperacao.COMPRA) {
 			atualizaPrecoMedio(negociacao, estoque);
 			atualizaQuantidadeEstoque(estoque, negociacao.getQuantidadeNegociada());
 		} else {
-			qtde = (negociacao.getQuantidadeNegociada() * (-1));
+			//qtde = (negociacao.getQuantidadeNegociada() * (-1));
 			atualizaQuantidadeEstoque(estoque, (negociacao.getQuantidadeNegociada() * -1));
+			if (estoque.getQuantidade() == 0) {
+				estoque.setPrecoMedio(BigDecimal.ZERO);
+			}
 		}
 		return neg;
 	}
