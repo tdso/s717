@@ -9,9 +9,9 @@ services:
     volumes:
       - ./dados:/var/lib/mysql
     environment:
-      MARIADB_USER: user
-      MARIADB_ROOT_PASSWORD: senha
-      MARIADB_DATABASE: portfolio
+      MARIADB_USER: user1
+      MARIADB_ROOT_PASSWORD: 'senha'
+      #MARIADB_DATABASE: portfolio
 
   adminer:
     image: adminer
