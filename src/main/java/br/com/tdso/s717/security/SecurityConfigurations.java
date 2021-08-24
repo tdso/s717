@@ -23,7 +23,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.and()
 		.authorizeRequests()
 		.antMatchers("/h2-console/**").permitAll()
-		
+		.antMatchers("/send/**").permitAll()
+		.antMatchers("/native/**").permitAll()
 		//.antMatchers(HttpMethod.GET, "/h2-console").permitAll()
 		//.antMatchers(HttpMethod.GET, "/h2-console/*").permitAll()
 //		.antMatchers(HttpMethod.GET, "/acao").permitAll()

@@ -20,7 +20,19 @@
       <input type="file" id="imagePicker" />
 
       <input type="button" onclick="sendData()" value="Enviar" data-bt-enviar />
+      <input
+        type="button"
+        onclick="sendDataNative()"
+        value="Enviar native"
+        data-bt-enviar-native
+      />
+      <input type="button" value="Get File" data-bt-get />
+      <input type="button" value="Get File Native" data-bt-get-native />
     </form>
+    <div>
+      <p></p>
+      <span data-conteudo></span>
+    </div>
     <script type="module" src="teste.js"></script>
   </body>
 </html>
